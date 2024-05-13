@@ -7,7 +7,7 @@ class AppController {
    * @returns{obect} server response
    */
   static async getHomepage(req, res) {
-    console.log('Getting homepage');  // testing
+    console.log('Getting homepage'); // testing
     res.status(200).send('Welcome to Files Manager');
   }
 
@@ -17,25 +17,23 @@ class AppController {
    */
   static async getStatus(req, res) {
     console.log('Getting status'); // testing
-    res.status(200).json({ "redis": redisClient.isAlive(), "db": dbClient.isAlive()});
+    res.status(200).json({
+      redis: redisClient.isAlive(),
+      db: dbClient.isAlive(),
+    });
   }
 
   static async getStats(req, res) {
     console.log('Getting stats'); // testing
     // return res.status(200).json({"stats": "in progress"});
     try {
-      const [users, files] = await Promise.all([
-        dbClient.nbUsers(),
-        dbClient.nbFiles()
-      ]);
-
       res.status(200).json({
-        'users': users,
-        'files': files
+        users: await dbClient.nbUsers(),
+        files: await dbClient.nbFiles(),
       });
     } catch (error) {
       console.error('Error getting stats:', error);
-      res.status(500).json({error: 'Could not get stats'});
+      res.status(500).json({ error: 'Could not get stats' });
     }
   }
 }
