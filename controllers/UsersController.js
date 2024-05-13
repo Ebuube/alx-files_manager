@@ -26,7 +26,7 @@ class UsersController {
         password: passwordHashed,
       });
 
-      res.status(200).json({
+      res.status(201).json({
         id: insertionInfo.insertedId,
         email,
       });
