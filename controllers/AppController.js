@@ -22,7 +22,21 @@ class AppController {
 
   static async getStats(req, res) {
     console.log('Getting stats'); // testing
-    return res.status(200).json({"stats": "in progress"});
+    // return res.status(200).json({"stats": "in progress"});
+    try {
+      const [users, files] = await Promise.all([
+        dbClient.nbUsers(),
+        dbClient.nbFiles()
+      ]);
+
+      res.send.status(200).json({
+        'users': users,
+        'files': files
+      });
+    } catch (error) {
+      console.error('Error getting stats:', error);
+      res.status(500).json({error: 'Could not get stats'});
+    }
   }
 }
 
