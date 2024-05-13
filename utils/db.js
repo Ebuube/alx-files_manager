@@ -40,7 +40,7 @@ class DBClient {
    * Return the number of users
    * @returns {number} The count or -1 on error
    */
-  async nbUser() {
+  async nbUsers() {
     // Get the users collection
     const docName = 'users';
     try {

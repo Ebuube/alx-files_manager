@@ -29,7 +29,7 @@ class AppController {
         dbClient.nbFiles()
       ]);
 
-      res.send.status(200).json({
+      res.status(200).json({
         'users': users,
         'files': files
       });
