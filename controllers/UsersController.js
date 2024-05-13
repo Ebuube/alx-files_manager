@@ -1,11 +1,9 @@
 // const redisClient = require('../utils/redis');
-const { inspect } = require('util');
 const sha1 = require('sha1');
 const dbClient = require('../utils/db');
 
 class UsersController {
   static async postNew(req, res) {
-    console.log(`Body: ${inspect(req.body)}`); // testing
     // Verify rquest body
     const { email, password } = req.body;
     if (!email) {
@@ -19,7 +17,6 @@ class UsersController {
     const uDocName = 'users';
     const existingUser = await dbClient.db.collection(uDocName).findOne({ email });
     if (existingUser) {
-      console.log(`Email [${email}] already exists`);
       res.status(400).json({ error: 'Already exist' });
     } else {
       // Hash password
@@ -28,7 +25,6 @@ class UsersController {
         email,
         password: passwordHashed,
       });
-      console.log(`InsertionInfo: ${insertionInfo}`);
 
       res.status(200).json({
         id: insertionInfo.insertedId,
