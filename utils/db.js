@@ -38,27 +38,31 @@ class DBClient {
 
   /**
    * Return the number of users
-   * returns {number} The number of users or -1 on error
+   * @returns {number} The count or -1 on error
    */
   async nbUser() {
+    // Get the users collection
+    const docName = 'users';
     try {
-      // Get the users collection
-      const docName = 'users';
       return await this.db.collection(docName).countDocuments();
     } catch (error) {
       console.error(`Error counting documents in the ${docName} colection:`, error);
-      return -1;  // Indicating error
+      return -1; // Indicating error
     }
   }
 
+  /**
+   * Return the number of files
+   * @returns {number} The count or -1 on error
+   */
   async nbFiles() {
-  try {
-      // Get the files collection
-      const docName = 'files';
+    // Get the files collection
+    const docName = 'files';
+    try {
       return await this.db.collection(docName).countDocuments();
     } catch (error) {
       console.error(`Error counting documents in the ${docName} colection:`, error);
-      return -1;  // Indicating error
+      return -1; // Indicating error
     }
   }
 }
