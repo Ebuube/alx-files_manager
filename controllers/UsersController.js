@@ -21,20 +21,20 @@ class UsersController {
     if (existingUser) {
       console.log(`Email [${email}] already exists`);
       res.status(400).json({ error: 'Already exist' });
+    } else {
+      // Hash password
+      const passwordHashed = sha1(password);
+      const insertionInfo = await dbClient.db.collection(uDocName).insertOne({
+        email,
+        password: passwordHashed,
+      });
+      console.log(`InsertionInfo: ${insertionInfo}`);
+
+      res.status(200).json({
+        id: insertionInfo.insertedId,
+        email,
+      });
     }
-
-    // Hash password
-    const passwordHashed = sha1(password);
-    const insertionInfo = await dbClient.db.collection(uDocName).insertOne({
-      email,
-      password: passwordHashed,
-    });
-    console.log(`InsertionInfo: ${insertionInfo}`);
-
-    res.status(200).json({
-      id: insertionInfo.insertedId,
-      email,
-    });
   }
 }
 
