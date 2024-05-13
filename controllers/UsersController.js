@@ -1,7 +1,7 @@
-const redisClient = require('../utils/redis');
-const dbClient = require('../utils/db');
+// const redisClient = require('../utils/redis');
 const { inspect } = require('util');
-const sha1 = require ('sha1');
+const sha1 = require('sha1');
+const dbClient = require('../utils/db');
 
 class UsersController {
   static async postNew(req, res) {
@@ -9,14 +9,14 @@ class UsersController {
     // Verify rquest body
     const { email, password } = req.body;
     if (!email) {
-      res.status(400).json({ error: "Missing email" });
+      res.status(400).json({ error: 'Missing email' });
     }
     if (!password) {
-      res.status(400).json({ error: "Missing password" });
+      res.status(400).json({ error: 'Missing password' });
     }
 
     // Reject existing email
-    const uDocName = 'users'
+    const uDocName = 'users';
     const existingUser = await dbClient.db.collection(uDocName).findOne({ email });
     if (existingUser) {
       console.log(`Email [${email}] already exists`);
